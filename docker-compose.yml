@@ -1,0 +1,29 @@
+version: '3.3'
+services:
+  web:
+    volumes:
+      - static:/static
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+            sh entrypoint.sh
+    ports:
+      - 8000:8000
+    depends_on:
+      - books_db
+
+  books_db:
+    image: postgres:13.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=amrelsayed
+      - POSTGRES_PASSWORD=amrelsayed
+      - POSTGRES_DB=amrelsayed_borrow_books
+
+volumes:
+  static:
+  postgres_data:
